@@ -15,9 +15,15 @@
   }
   
   .logo {
-    height: 32px;
+    padding: 10px;
+    text-align: center;
+    
     margin: 16px;
     background: rgba(255, 255, 255, 0.3);
+  }
+
+  .logo article{
+    color: white;
   }
   
   .site-layout .site-layout-background {
@@ -32,10 +38,17 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-#root{
-    height: 100%;
-}  
 
 .App {
     height: 100%;
+}
+
+.site-card-wrapper {
+    padding: 30px;
+    background: #ececec;
+    padding-bottom: 50px;
+  }
+
+.task-status-badge-div{
+    text-align: end;
 }

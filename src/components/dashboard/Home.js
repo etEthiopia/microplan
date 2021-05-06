@@ -1,18 +1,21 @@
-import { Layout, Menu } from 'antd';
+import { Typography, Layout, Menu, Divider } from 'antd';
 import React, { Component } from 'react';
 import {
 	MenuUnfoldOutlined,
 	MenuFoldOutlined,
-	UserOutlined,
-	VideoCameraOutlined,
-	UploadOutlined
+	UnorderedListOutlined,
+	UsergroupDeleteOutlined,
+	AreaChartOutlined,
+	DoubleLeftOutlined
 } from '@ant-design/icons';
+import Tasks from './task/Tasks';
 
 const { Header, Sider, Content } = Layout;
 
 class Home extends Component {
 	state = {
-		collapsed: false
+		collapsed: false,
+		name: 'Dagmawi Negussu'
 	};
 
 	toggle = () => {
@@ -25,16 +28,24 @@ class Home extends Component {
 		return (
 			<Layout className="home-layout">
 				<Sider trigger={null} collapsible collapsed={this.state.collapsed}>
-					<div className="logo" />
+					<div className="logo">
+						<Typography level={3}>
+							{this.state.collapsed ? this.state.name.charAt(0) : this.state.name}
+						</Typography>
+					</div>
 					<Menu theme="dark" mode="inline" defaultSelectedKeys={[ '1' ]}>
-						<Menu.Item key="1" icon={<UserOutlined />}>
-							nav 1
+						<Menu.Item key="tasks" icon={<UnorderedListOutlined />}>
+							Tasks
 						</Menu.Item>
-						<Menu.Item key="2" icon={<VideoCameraOutlined />}>
-							nav 2
+						<Menu.Item key="teams" icon={<UsergroupDeleteOutlined />}>
+							Teams
 						</Menu.Item>
-						<Menu.Item key="3" icon={<UploadOutlined />}>
-							nav 3
+						<Menu.Item key="stats" icon={<AreaChartOutlined />}>
+							Stats
+						</Menu.Item>
+						<Divider dashed />
+						<Menu.Item key="logout" icon={<DoubleLeftOutlined />}>
+							Log Out
 						</Menu.Item>
 					</Menu>
 				</Sider>
@@ -53,7 +64,7 @@ class Home extends Component {
 							minHeight: 280
 						}}
 					>
-						Content
+						<Tasks />
 					</Content>
 				</Layout>
 			</Layout>
