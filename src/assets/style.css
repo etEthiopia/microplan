@@ -40,7 +40,12 @@
   }
 
 .App {
-    height: 100%;
+   flex: auto;
+}
+
+#root{
+  min-height: 100%;
+  display: flex;
 }
 
 .site-card-wrapper {
@@ -52,3 +57,19 @@
 .task-status-badge-div{
     text-align: end;
 }
+
+.fab-container {
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    z-index: 999;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .site-card-border-less-wrapper {
+    padding: 30px 50px;
+    background: #ececec;
+  }

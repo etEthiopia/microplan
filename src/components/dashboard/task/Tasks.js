@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
-import { Carousel, Row, Col, Card, Divider, Tag, Typography } from 'antd';
+import { Carousel, Row, Col, Card, Divider, Tag, Typography, Button } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import Task from './components/Task';
+
+const { Title } = Typography;
 
 class Tasks extends Component {
 	state = {};
@@ -18,7 +22,7 @@ class Tasks extends Component {
 		return (
 			<div>
 				<Row>
-					<Typography level={1}>Personal Tasks</Typography>
+					<Title level={3}>Personal Tasks</Title>
 					<Col span={24}>
 						<Carousel afterChange={this.onChange}>
 							<div className="site-card-wrapper">
@@ -76,7 +80,7 @@ class Tasks extends Component {
 				</Row>
 				<Divider />
 				<Row>
-					<Typography level={1}>Team 1</Typography>
+					<Title level={3}>Team 1</Title>
 					<Col span={24}>
 						<Carousel afterChange={this.onChange}>
 							<div className="site-card-wrapper">
@@ -112,24 +116,13 @@ class Tasks extends Component {
 							</div>
 							<div className="site-card-wrapper">
 								<Row gutter={16}>
-									<Col span={8}>
-										<Card title="Card title" bordered={false}>
-											Card content
-										</Card>
-									</Col>
-									<Col span={8}>
-										<Card title="Card title" bordered={false}>
-											Card content
-										</Card>
-									</Col>
-									<Col span={8}>
-										<Card title="Card title" bordered={false}>
-											Card content
-										</Card>
-									</Col>
+									<Task />
+									<Task />
+									<Task />
 								</Row>
 							</div>
-						</Carousel>,
+						</Carousel>
+						<Button className="fab-container" type="primary" shape="circle" icon={<PlusOutlined />} />
 					</Col>
 				</Row>
 			</div>

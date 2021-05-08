@@ -9,6 +9,10 @@ import {
 	DoubleLeftOutlined
 } from '@ant-design/icons';
 import Tasks from './task/Tasks';
+import TaskDetail from './task/TaskDetail';
+import CreateTask from './task/CreateTask';
+import Teams from './team/Teams';
+import Stats from './Stats';
 
 const { Header, Sider, Content } = Layout;
 
@@ -64,7 +68,11 @@ class Home extends Component {
 							minHeight: 280
 						}}
 					>
-						<Tasks />
+						{/* <Tasks /> */}
+						{/* <TaskDetail /> */}
+						{/* <CreateTask /> */}
+						{/* <Teams /> */}
+						<Stats />
 					</Content>
 				</Layout>
 			</Layout>

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Card, Form, Select, Input, Row, Col, Button, Checkbox } from 'antd';
+import { Card, Form, Input, Row, Col, Button, Checkbox } from 'antd';
 
-class CreateTask extends Component {
+class Register extends Component {
 	state = {};
 	layout = {
-		labelCol: { span: 6 },
+		labelCol: { span: 8 },
 		wrapperCol: { span: 16 }
 	};
 	tailLayout = {
@@ -22,8 +22,8 @@ class CreateTask extends Component {
 		return (
 			<div className="site-card-border-less-wrapper">
 				<Row>
-					<Col span={16} offset={4}>
-						<Card title="Add a New Task" bordered={false} style={{ padding: '30px', textAlign: 'center' }}>
+					<Col span={10} offset={7}>
+						<Card title="Register" bordered={false} style={{ padding: '30px', textAlign: 'center' }}>
 							<Form
 								{...this.layout}
 								name="basic"
@@ -32,30 +32,38 @@ class CreateTask extends Component {
 								onFinishFailed={this.onFinishFailed}
 							>
 								<Form.Item
-									label="Title"
-									name="title"
-									rules={[ { required: true, type: 'string', message: 'Please input your title!' } ]}
+									label="Full Name"
+									name="fullname"
+									rules={[
+										{ required: true, type: 'string', message: 'Please input your full name!' }
+									]}
 								>
 									<Input />
 								</Form.Item>
 								<Form.Item
-									name="description"
-									label="Description"
-									rules={[ { required: true, message: 'Please input your description!' } ]}
+									label="Email"
+									name="email"
+									rules={[ { required: true, type: 'email', message: 'Please input your email!' } ]}
 								>
-									<Input.TextArea rows="5" />
+									<Input />
 								</Form.Item>
+
 								<Form.Item
-									name="category"
-									label="Task Category"
-									hasFeedback
-									rules={[ { required: true, message: 'Please select your Category!' } ]}
+									label="Password"
+									name="password"
+									rules={[ { required: true, message: 'Please input your password!' } ]}
 								>
-									<Select defaultValue="personal">
-										<Select value="personal">Personal</Select>
-										<Select value="team1">A Team</Select>
-									</Select>
+									<Input.Password />
 								</Form.Item>
+
+								<Form.Item
+									label="Confirm Password"
+									name="cpassword"
+									rules={[ { required: true, message: 'Please confirm your password!' } ]}
+								>
+									<Input.Password />
+								</Form.Item>
+
 								<Form.Item {...this.tailLayout}>
 									<Button type="primary" htmlType="submit" style={{ float: 'right' }}>
 										Submit
@@ -70,4 +78,4 @@ class CreateTask extends Component {
 	}
 }
 
-export default CreateTask;
+export default Register;
