@@ -15,6 +15,7 @@ import CreateTask from './task/CreateTask';
 import Teams from './team/Teams';
 import Stats from './Stats';
 import { NavLink } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 const { Header, Sider, Content } = Layout;
 
@@ -49,6 +50,10 @@ class Home extends Component {
 		}
 	};
 
+	menuHandler = (m) => {
+		window.location.href = m.key;
+	};
+
 	render() {
 		return (
 			<Router>
@@ -70,16 +75,15 @@ class Home extends Component {
 							</Typography>
 						</div>
 						<Menu theme="dark" mode="inline" defaultSelectedKeys={[ '1' ]}>
-							<Menu.Item key="tasks" icon={<UnorderedListOutlined />}>
-								<NavLink to="/home/tasks">Tasks</NavLink>
+							<Menu.Item onClick={this.menuHandler} key="/home/tasks" icon={<UnorderedListOutlined />}>
+								Tasks
 							</Menu.Item>
-							<Menu.Item key="teams" icon={<UsergroupDeleteOutlined />}>
-								<NavLink to="/home/teams"> Teams</NavLink>
+							<Menu.Item key="/home/teams" icon={<UsergroupDeleteOutlined />}>
+								Teams
 							</Menu.Item>
-							<Menu.Item key="stats" icon={<AreaChartOutlined />}>
-								<NavLink to="/home/stats">Stats</NavLink>
+							<Menu.Item key="/home/stats" icon={<AreaChartOutlined />}>
+								Stats
 							</Menu.Item>
-							<Divider dashed />
 							<Menu.Item key="logout" icon={<DoubleLeftOutlined />}>
 								Log Out
 							</Menu.Item>
@@ -106,7 +110,7 @@ class Home extends Component {
 							{/* <Teams /> */}
 							{/* <Stats /> */}
 							<Switch>
-								<Route path="/home/tasks" component={Tasks} />
+								<Route path="/home/tasks" render={() => <Tasks {...{ tasks: this.props.tasks }} />} />
 								<Route path="/home/teams" component={Teams} />
 								<Route path="/home/stats" component={Stats} />
 								<Route path="/home/teams" component={Teams} />
@@ -124,4 +128,10 @@ class Home extends Component {
 	}
 }
 
-export default Home;
+const mapStateToProps = (state) => {
+	return {
+		tasks: state.task.tasks[0]
+	};
+};
+
+export default connect(mapStateToProps)(Home);

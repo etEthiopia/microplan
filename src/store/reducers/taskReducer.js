@@ -1,7 +1,11 @@
-const initState = {};
+import tasksData from '../../dummydata/tasksData';
+
+const initState = {
+	tasks: [ tasksData ]
+};
 
 const taskReducer = (state = initState, action) => {
-    return state;
+	return state;
 };
 
 export default taskReducer;
