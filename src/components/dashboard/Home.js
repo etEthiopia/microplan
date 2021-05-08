@@ -111,7 +111,7 @@ class Home extends Component {
 								<Route path="/home/stats" component={Stats} />
 								<Route path="/home/teams" component={Teams} />
 								<Route path="/home/createtask" component={CreateTask} />
-								<Route path="/home/task" component={TaskDetail} />
+								<Route path="/home/task/:id" component={TaskDetail} />
 								<Route path="/" component={Tasks} />
 							</Switch>
 							{/* <Navbar /> */}
