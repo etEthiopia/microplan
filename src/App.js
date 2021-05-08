@@ -3,6 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import Home from './components/dashboard/Home';
+import Landing from './components/landing/Landing';
 import Navbar from './components/layout/Navbar';
 
 class App extends Component {
@@ -11,9 +12,10 @@ class App extends Component {
 			<BrowserRouter>
 				<div className="App">
 					{/* <Navbar /> */}
-					<Home />
-					{/* <Login /> */}
+					{/* <Home /> */}
+					<Login />
 					{/* <Register /> */}
+					{/* <Landing /> */}
 				</div>
 			</BrowserRouter>
 		);

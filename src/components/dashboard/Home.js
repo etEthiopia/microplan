@@ -13,12 +13,14 @@ import TaskDetail from './task/TaskDetail';
 import CreateTask from './task/CreateTask';
 import Teams from './team/Teams';
 import Stats from './Stats';
+import Landing from '../landing/Landing';
 
 const { Header, Sider, Content } = Layout;
 
 class Home extends Component {
 	state = {
 		collapsed: false,
+		marginleft: 200,
 		name: 'Dagmawi Negussu'
 	};
 
@@ -26,12 +28,40 @@ class Home extends Component {
 		this.setState({
 			collapsed: !this.state.collapsed
 		});
+
+		if (!this.state.collapsed) {
+			setTimeout(
+				function() {
+					//Start the timer
+					this.setState({ marginleft: 80 });
+				}.bind(this),
+				90
+			);
+		} else {
+			setTimeout(
+				function() {
+					//Start the timer
+					this.setState({ marginleft: 200 });
+				}.bind(this),
+				90
+			);
+		}
 	};
 
 	render() {
 		return (
-			<Layout className="home-layout">
-				<Sider trigger={null} collapsible collapsed={this.state.collapsed}>
+			<Layout className="home-layout" style={{ marginLeft: this.state.marginleft }}>
+				<Sider
+					trigger={null}
+					collapsible
+					collapsed={this.state.collapsed}
+					style={{
+						overflow: 'auto',
+						height: '100vh',
+						position: 'fixed',
+						left: 0
+					}}
+				>
 					<div className="logo">
 						<Typography level={3}>
 							{this.state.collapsed ? this.state.name.charAt(0) : this.state.name}

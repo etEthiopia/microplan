@@ -15,10 +15,22 @@ class Navbar extends Component {
 
 	render() {
 		return (
-			<Menu theme="dark" onClick={this.handleClick} selectedKeys={[ this.state.current ]} mode="horizontal">
-				<Menu.Item key="home">MicroPlan</Menu.Item>
-				<Menu.Item key="Register">Register</Menu.Item>
-				<Menu.Item key="Log In">Log In</Menu.Item>
+			<Menu
+				theme="dark"
+				onClick={this.handleClick}
+				style={{ padding: '0rem 5rem' }}
+				selectedKeys={[ this.state.current ]}
+				mode="horizontal"
+			>
+				<Menu.Item key="home" style={{ fontSize: '1.5rem' }}>
+					MicroPlan
+				</Menu.Item>
+				<Menu.Item style={{ float: 'right' }} key="Register">
+					Register
+				</Menu.Item>
+				<Menu.Item style={{ float: 'right' }} key="Log In">
+					Log In
+				</Menu.Item>
 			</Menu>
 		);
 	}

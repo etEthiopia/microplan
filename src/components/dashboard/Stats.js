@@ -188,7 +188,7 @@ class Stats extends Component {
 					</Row>
 
 					<Divider />
-					<Title level={4}>Personal Stats</Title>
+					<Title level={4}>Team Stats</Title>
 					<Divider />
 					<Row>
 						<Title level={5}>Team 1</Title>
@@ -232,7 +232,11 @@ class Stats extends Component {
 										</Card>
 									</Col>
 									<Col span={8} style={{ marginBottom: '1em' }}>
-										<Card style={{ height: '100%' }} title="Share of Team 1 Tasks" bordered={false}>
+										<Card
+											style={{ height: '100%' }}
+											title="Personal Share of Team 1 Tasks"
+											bordered={false}
+										>
 											<Title style={{ fontSize: '7rem' }} level={1}>
 												45%
 											</Title>
