@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Carousel, Row, Col, Card, Divider, Tag, Typography, Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import Task from './components/Task';
+import { useHistory } from 'react-router-dom';
 
 const { Title } = Typography;
 
@@ -122,7 +123,15 @@ class Tasks extends Component {
 								</Row>
 							</div>
 						</Carousel>
-						<Button className="fab-container" type="primary" shape="circle" icon={<PlusOutlined />} />
+						<Button
+							className="fab-container"
+							type="primary"
+							onClick={() => {
+								window.location.href = '/home/createtask/';
+							}}
+							shape="circle"
+							icon={<PlusOutlined />}
+						/>
 					</Col>
 				</Row>
 			</div>

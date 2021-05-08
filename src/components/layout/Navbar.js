@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Menu } from 'antd';
+import { NavLink } from 'react-router-dom';
 
 class Navbar extends Component {
 	state = {
@@ -23,13 +24,13 @@ class Navbar extends Component {
 				mode="horizontal"
 			>
 				<Menu.Item key="home" style={{ fontSize: '1.5rem' }}>
-					MicroPlan
+					<NavLink to="/"> MicroPlan</NavLink>
 				</Menu.Item>
 				<Menu.Item style={{ float: 'right' }} key="Register">
-					Register
+					<NavLink to="/register"> Register</NavLink>
 				</Menu.Item>
 				<Menu.Item style={{ float: 'right' }} key="Log In">
-					Log In
+					<NavLink to="/login"> Log In</NavLink>
 				</Menu.Item>
 			</Menu>
 		);

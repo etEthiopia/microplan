@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import Home from './components/dashboard/Home';
@@ -11,11 +11,13 @@ class App extends Component {
 		return (
 			<BrowserRouter>
 				<div className="App">
+					<Route path="/" exact={true} component={Landing} />
+					<Route path="/login" component={Login} />
+					<Route path="/register" component={Register} />
+					<Route path="/home" component={Home} />
+					
 					{/* <Navbar /> */}
 					{/* <Home /> */}
-					<Login />
-					{/* <Register /> */}
-					{/* <Landing /> */}
 				</div>
 			</BrowserRouter>
 		);

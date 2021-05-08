@@ -8,12 +8,13 @@ import {
 	AreaChartOutlined,
 	DoubleLeftOutlined
 } from '@ant-design/icons';
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import Tasks from './task/Tasks';
 import TaskDetail from './task/TaskDetail';
 import CreateTask from './task/CreateTask';
 import Teams from './team/Teams';
 import Stats from './Stats';
-import Landing from '../landing/Landing';
+import { NavLink } from 'react-router-dom';
 
 const { Header, Sider, Content } = Layout;
 
@@ -50,62 +51,75 @@ class Home extends Component {
 
 	render() {
 		return (
-			<Layout className="home-layout" style={{ marginLeft: this.state.marginleft }}>
-				<Sider
-					trigger={null}
-					collapsible
-					collapsed={this.state.collapsed}
-					style={{
-						overflow: 'auto',
-						height: '100vh',
-						position: 'fixed',
-						left: 0
-					}}
-				>
-					<div className="logo">
-						<Typography level={3}>
-							{this.state.collapsed ? this.state.name.charAt(0) : this.state.name}
-						</Typography>
-					</div>
-					<Menu theme="dark" mode="inline" defaultSelectedKeys={[ '1' ]}>
-						<Menu.Item key="tasks" icon={<UnorderedListOutlined />}>
-							Tasks
-						</Menu.Item>
-						<Menu.Item key="teams" icon={<UsergroupDeleteOutlined />}>
-							Teams
-						</Menu.Item>
-						<Menu.Item key="stats" icon={<AreaChartOutlined />}>
-							Stats
-						</Menu.Item>
-						<Divider dashed />
-						<Menu.Item key="logout" icon={<DoubleLeftOutlined />}>
-							Log Out
-						</Menu.Item>
-					</Menu>
-				</Sider>
-				<Layout className="site-layout">
-					<Header className="site-layout-background" style={{ padding: 0 }}>
-						{React.createElement(this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-							className: 'trigger',
-							onClick: this.toggle
-						})}
-					</Header>
-					<Content
-						className="site-layout-background"
+			<Router>
+				<Layout className="home-layout" style={{ marginLeft: this.state.marginleft }}>
+					<Sider
+						trigger={null}
+						collapsible
+						collapsed={this.state.collapsed}
 						style={{
-							margin: '24px 16px',
-							padding: 24,
-							minHeight: 280
+							overflow: 'auto',
+							height: '100vh',
+							position: 'fixed',
+							left: 0
 						}}
 					>
-						{/* <Tasks /> */}
-						{/* <TaskDetail /> */}
-						{/* <CreateTask /> */}
-						{/* <Teams /> */}
-						<Stats />
-					</Content>
+						<div className="logo">
+							<Typography level={3}>
+								{this.state.collapsed ? this.state.name.charAt(0) : this.state.name}
+							</Typography>
+						</div>
+						<Menu theme="dark" mode="inline" defaultSelectedKeys={[ '1' ]}>
+							<Menu.Item key="tasks" icon={<UnorderedListOutlined />}>
+								<NavLink to="/home/tasks">Tasks</NavLink>
+							</Menu.Item>
+							<Menu.Item key="teams" icon={<UsergroupDeleteOutlined />}>
+								<NavLink to="/home/teams"> Teams</NavLink>
+							</Menu.Item>
+							<Menu.Item key="stats" icon={<AreaChartOutlined />}>
+								<NavLink to="/home/stats">Stats</NavLink>
+							</Menu.Item>
+							<Divider dashed />
+							<Menu.Item key="logout" icon={<DoubleLeftOutlined />}>
+								Log Out
+							</Menu.Item>
+						</Menu>
+					</Sider>
+					<Layout className="site-layout">
+						<Header className="site-layout-background" style={{ padding: 0 }}>
+							{React.createElement(this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+								className: 'trigger',
+								onClick: this.toggle
+							})}
+						</Header>
+						<Content
+							className="site-layout-background"
+							style={{
+								margin: '24px 16px',
+								padding: 24,
+								minHeight: 280
+							}}
+						>
+							{/* <Tasks /> */}
+							{/* <TaskDetail /> */}
+							{/* <CreateTask /> */}
+							{/* <Teams /> */}
+							{/* <Stats /> */}
+							<Switch>
+								<Route path="/home/tasks" component={Tasks} />
+								<Route path="/home/teams" component={Teams} />
+								<Route path="/home/stats" component={Stats} />
+								<Route path="/home/teams" component={Teams} />
+								<Route path="/home/createtask" component={CreateTask} />
+								<Route path="/home/task" component={TaskDetail} />
+								<Route path="/" component={Tasks} />
+							</Switch>
+							{/* <Navbar /> */}
+							{/* <Home /> */}
+						</Content>
+					</Layout>
 				</Layout>
-			</Layout>
+			</Router>
 		);
 	}
 }
