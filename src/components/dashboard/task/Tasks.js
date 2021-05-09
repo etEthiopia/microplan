@@ -37,45 +37,49 @@ class Tasks extends Component {
 		var index = 0;
 		const personalTasks = this.state.personalTasks;
 		const teamTasks = this.state.teamTasks;
-		this.props.tasks.forEach((task) => {
-			if (task.type == 0) {
-				if (personalTasks.length > pkey) {
-					personalTasks[pkey].push(task);
-					pcounter++;
-				} else {
-					personalTasks[pkey] = [ task ];
-					pcounter++;
-				}
+		try {
+			this.props.tasks.forEach((task) => {
+				if (task.type == 0) {
+					if (personalTasks.length > pkey) {
+						personalTasks[pkey].push(task);
+						pcounter++;
+					} else {
+						personalTasks[pkey] = [ task ];
+						pcounter++;
+					}
 
-				if (pcounter == 3) {
-					pkey++;
-					pcounter = 0;
-				}
-			} else if (task.type == 1) {
-				if (teamTasks.hasOwnProperty(task.team)) {
-					while (true) {
-						if (index < teamTasks[task.team].length) {
-							console.log(index + ' - ' + task.title);
-							if (teamTasks[task.team][index].length < 3) {
-								teamTasks[task.team][index].push(task);
-								if (teamTasks[task.team][index].length == 3) {
-									index++;
+					if (pcounter == 3) {
+						pkey++;
+						pcounter = 0;
+					}
+				} else if (task.type == 1) {
+					if (teamTasks.hasOwnProperty(task.team)) {
+						while (true) {
+							if (index < teamTasks[task.team].length) {
+								console.log(index + ' - ' + task.title);
+								if (teamTasks[task.team][index].length < 3) {
+									teamTasks[task.team][index].push(task);
+									if (teamTasks[task.team][index].length == 3) {
+										index++;
+									}
+									break;
+								} else {
+									teamTasks[task.team].push([ [ task ] ]);
+									break;
 								}
-								break;
 							} else {
-								teamTasks[task.team].push([ [ task ] ]);
+								teamTasks[task.team].push([ task ]);
 								break;
 							}
-						} else {
-							teamTasks[task.team].push([ task ]);
-							break;
 						}
+					} else {
+						teamTasks[task.team] = [ [ task ] ];
 					}
-				} else {
-					teamTasks[task.team] = [ [ task ] ];
 				}
-			}
-		});
+			});
+		} catch (e) {
+			window.alert(e);
+		}
 		this.setState({
 			personalTasks: personalTasks,
 			teamTasks: teamTasks

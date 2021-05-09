@@ -116,7 +116,7 @@ class Home extends Component {
 								<Route path="/home/teams" component={Teams} />
 								<Route path="/home/createtask" component={CreateTask} />
 								<Route path="/home/task/:id" component={TaskDetail} />
-								<Route path="/" component={Tasks} />
+								<Route path="/" render={() => <Tasks {...{ tasks: this.props.tasks }} />} />
 							</Switch>
 							{/* <Navbar /> */}
 							{/* <Home /> */}
