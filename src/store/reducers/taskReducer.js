@@ -7,13 +7,14 @@ const initState = {
 const taskReducer = (state = initState, action) => {
 	switch (action.type) {
 		case 'CREATE_TASK':
-			console.log(JSON.stringify(action.payload) + ' CREATED');
-			break;
-
+			window.alert(JSON.stringify(action.payload) + ' CREATED');
+			return state;
+		case 'CREATE_TASK_ERROR':
+			window.alert(action.payload + ' CREATION ERROR');
+			return state;
 		default:
-			break;
+			return state;
 	}
-	return state;
 };
 
 export default taskReducer;

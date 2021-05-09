@@ -21,7 +21,7 @@ class CreateTask extends Component {
 			title: values['title'],
 			description: description,
 			type: values['type'],
-			team: values['type'] == 'personal' ? '' : values['team']
+			team: values['type'] == 0 ? '' : values['team']
 		});
 	};
 
@@ -74,8 +74,8 @@ class CreateTask extends Component {
 									rules={[ { required: true, message: 'Please select your Category!' } ]}
 								>
 									<Select onChange={this.onTypeChange} style={{ minWidth: '150px', width: 'auto' }}>
-										<Select value="personal">Personal</Select>
-										<Select value="team">A Team</Select>
+										<Select value={0}>Personal</Select>
+										<Select value={1}>A Team</Select>
 									</Select>
 								</Form.Item>
 								{this.state.team && (
