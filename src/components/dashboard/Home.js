@@ -16,6 +16,8 @@ import Teams from './team/Teams';
 import Stats from './Stats';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { firestoreConnect } from 'react-redux-firebase';
+import { compose } from 'redux';
 
 const { Header, Sider, Content } = Layout;
 
@@ -129,9 +131,14 @@ class Home extends Component {
 }
 
 const mapStateToProps = (state) => {
+	console.log(state);
 	return {
-		tasks: state.task.tasks[0]
+		tasks: state.firestore.ordered.tasks
 	};
 };
 
-export default connect(mapStateToProps)(Home);
+//export default connect(mapStateToProps)(Home);
+export default compose(
+	firestoreConnect([ { collection: 'tasks' } ]), // or { collection: 'todos' }
+	connect(mapStateToProps)
+)(Home);

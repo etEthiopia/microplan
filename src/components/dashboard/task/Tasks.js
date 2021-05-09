@@ -56,7 +56,7 @@ class Tasks extends Component {
 					if (teamTasks.hasOwnProperty(task.team)) {
 						while (true) {
 							if (index < teamTasks[task.team].length) {
-								console.log(index + ' - ' + task.title);
+								//console.log(index + ' - ' + task.title);
 								if (teamTasks[task.team][index].length < 3) {
 									teamTasks[task.team][index].push(task);
 									if (teamTasks[task.team][index].length == 3) {
@@ -84,15 +84,15 @@ class Tasks extends Component {
 			personalTasks: personalTasks,
 			teamTasks: teamTasks
 		});
-		console.log('render');
-		console.log(this.state);
+		// console.log('render');
+		// console.log(this.state);
 	}
 
 	render() {
 		const personalTasks = this.state.personalTasks;
 		const teamTasks = this.state.teamTasks;
-		console.log('render');
-		console.log(teamTasks);
+		// console.log('render');
+		// console.log(teamTasks);
 		return (
 			<div>
 				<Row>

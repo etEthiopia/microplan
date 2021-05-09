@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
 import authReducer from './authReducer';
 import taskReducer from './taskReducer';
+import {firestoreReducer} from 'redux-firestore'
 
 export default combineReducers({
 	auth: authReducer,
-	task: taskReducer
+	task: taskReducer,
+	firestore: firestoreReducer
 });
