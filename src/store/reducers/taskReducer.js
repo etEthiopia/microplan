@@ -1,16 +1,17 @@
 import tasksData from '../../dummydata/tasksData';
 
 const initState = {
-	tasks: [ tasksData ]
+	tasks: [ tasksData ],
+	taskcreation: ''
 };
 
 const taskReducer = (state = initState, action) => {
 	switch (action.type) {
 		case 'CREATE_TASK':
-			window.alert(JSON.stringify(action.payload) + ' CREATED');
+			state.taskcreation = 'successful::' + action.payload.title;
 			return state;
 		case 'CREATE_TASK_ERROR':
-			window.alert(action.payload + ' CREATION ERROR');
+			state.taskcreation = 'unsuccessful::' + action.payload.title;
 			return state;
 		default:
 			return state;

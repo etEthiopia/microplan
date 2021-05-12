@@ -39,8 +39,6 @@ class Tasks extends Component {
 		var index = 0;
 		const personalTasks = [];
 		const teamTasks = [];
-		console.log('TASKS');
-		console.log(this.state.personalTasks);
 		try {
 			this.props.tasks.forEach((task) => {
 				if (task.type == 0) {
@@ -259,9 +257,9 @@ class Tasks extends Component {
 }
 
 const mapStateToProps = (state) => {
-	console.log(state);
 	return {
-		tasks: state.firestore.ordered.tasks || state.task.tasks
+		tasks: state.firestore.ordered.tasks || state.task.tasks,
+		taskcreation: state.task.taskcreation
 	};
 };
 
