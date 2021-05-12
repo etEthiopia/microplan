@@ -31,7 +31,7 @@ class CreateTask extends Component {
 
 	onTypeChange = (event) => {
 		var type = false;
-		if (event == 'team') {
+		if (event === 1) {
 			type = true;
 		}
 		this.setState({

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Carousel, Row, Col, Card, Divider, Tag, Typography, Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import Task from './components/Task';
+import { connect } from 'react-redux';
+import { firestoreConnect } from 'react-redux-firebase';
+import { compose } from 'redux';
 
 const { Title } = Typography;
 
@@ -11,7 +13,7 @@ class Tasks extends Component {
 		teamTasks: []
 	};
 	contentStyle = {
-		color: '#fff',
+		color: '#ffffff',
 		lineHeight: '160px',
 		textAlign: 'center',
 		background: '#364d79'
@@ -31,12 +33,14 @@ class Tasks extends Component {
 		return [ ...array.slice(0, index), newItem, ...array.slice(index) ];
 	}
 
-	componentDidMount() {
+	checkThingsOut() {
 		var pkey = 0;
 		var pcounter = 0;
 		var index = 0;
-		const personalTasks = this.state.personalTasks;
-		const teamTasks = this.state.teamTasks;
+		const personalTasks = [];
+		const teamTasks = [];
+		console.log('TASKS');
+		console.log(this.state.personalTasks);
 		try {
 			this.props.tasks.forEach((task) => {
 				if (task.type == 0) {
@@ -80,17 +84,17 @@ class Tasks extends Component {
 		} catch (e) {
 			window.alert(e);
 		}
-		this.setState({
+		console.log('component mount: ' + personalTasks.length);
+		return {
 			personalTasks: personalTasks,
 			teamTasks: teamTasks
-		});
-		// console.log('render');
-		// console.log(this.state);
+		};
 	}
 
 	render() {
-		const personalTasks = this.state.personalTasks;
-		const teamTasks = this.state.teamTasks;
+		const obj = this.checkThingsOut();
+		const personalTasks = obj.personalTasks;
+		const teamTasks = obj.teamTasks;
 		// console.log('render');
 		// console.log(teamTasks);
 		return (
@@ -254,4 +258,14 @@ class Tasks extends Component {
 	}
 }
 
-export default Tasks;
+const mapStateToProps = (state) => {
+	console.log(state);
+	return {
+		tasks: state.firestore.ordered.tasks || state.task.tasks
+	};
+};
+
+export default compose(
+	firestoreConnect([ { collection: 'tasks' } ]), // or { collection: 'todos' }
+	connect(mapStateToProps)
+)(Tasks);

@@ -3,7 +3,7 @@ import 'firebase/firestore';
 import 'firebase/analytics';
 import 'firebase/auth';
 
-var firebaseConfig = {
+const firebaseConfig = {
 	apiKey: 'AIzaSyD9Ti4uVKSADGezhgp31GXDrsyzXt7glQA',
 	authDomain: 'microplan-89f32.firebaseapp.com',
 	projectId: 'microplan-89f32',

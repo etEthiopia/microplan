@@ -14,10 +14,6 @@ import TaskDetail from './task/TaskDetail';
 import CreateTask from './task/CreateTask';
 import Teams from './team/Teams';
 import Stats from './Stats';
-import { NavLink } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { firestoreConnect } from 'react-redux-firebase';
-import { compose } from 'redux';
 
 const { Header, Sider, Content } = Layout;
 
@@ -80,10 +76,10 @@ class Home extends Component {
 							<Menu.Item onClick={this.menuHandler} key="/home/tasks" icon={<UnorderedListOutlined />}>
 								Tasks
 							</Menu.Item>
-							<Menu.Item key="/home/teams" icon={<UsergroupDeleteOutlined />}>
+							<Menu.Item onClick={this.menuHandler} key="/home/teams" icon={<UsergroupDeleteOutlined />}>
 								Teams
 							</Menu.Item>
-							<Menu.Item key="/home/stats" icon={<AreaChartOutlined />}>
+							<Menu.Item onClick={this.menuHandler} key="/home/stats" icon={<AreaChartOutlined />}>
 								Stats
 							</Menu.Item>
 							<Menu.Item key="logout" icon={<DoubleLeftOutlined />}>
@@ -106,22 +102,15 @@ class Home extends Component {
 								minHeight: 280
 							}}
 						>
-							{/* <Tasks /> */}
-							{/* <TaskDetail /> */}
-							{/* <CreateTask /> */}
-							{/* <Teams /> */}
-							{/* <Stats /> */}
 							<Switch>
-								<Route path="/home/tasks" render={() => <Tasks {...{ tasks: this.props.tasks }} />} />
+								<Route path="/home/tasks" component={Tasks} />
 								<Route path="/home/teams" component={Teams} />
 								<Route path="/home/stats" component={Stats} />
 								<Route path="/home/teams" component={Teams} />
 								<Route path="/home/createtask" component={CreateTask} />
 								<Route path="/home/task/:id" component={TaskDetail} />
-								<Route path="/" render={() => <Tasks {...{ tasks: this.props.tasks }} />} />
+								<Route path="/" component={Tasks} />
 							</Switch>
-							{/* <Navbar /> */}
-							{/* <Home /> */}
 						</Content>
 					</Layout>
 				</Layout>
@@ -130,15 +119,4 @@ class Home extends Component {
 	}
 }
 
-const mapStateToProps = (state) => {
-	console.log(state);
-	return {
-		tasks: state.firestore.ordered.tasks
-	};
-};
-
-//export default connect(mapStateToProps)(Home);
-export default compose(
-	firestoreConnect([ { collection: 'tasks' } ]), // or { collection: 'todos' }
-	connect(mapStateToProps)
-)(Home);
+export default Home;

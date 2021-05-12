@@ -20,7 +20,7 @@ class Landing extends Component {
 	state = {};
 	render() {
 		return (
-			<Layout style={{ textAlign: 'center',  backgroundColor: '#fff' }}>
+			<Layout style={{ textAlign: 'center', backgroundColor: '#fff' }}>
 				<Navbar />
 				<div style={{ textAlign: 'center', backgroundColor: '#F0F2F5', padding: '4em 0em' }}>
 					<Title level={1} style={{ marginBottom: '0em' }}>
@@ -30,9 +30,9 @@ class Landing extends Component {
 						Follow Your Personal and Team Tasks
 					</Title>
 					<Button style={{ marginRight: '1em' }} type="primary" size="large">
-						Primary
+						Register
 					</Button>
-					<Button size="large">Default</Button>
+					<Button size="large">Login</Button>
 				</div>
 
 				<Row style={{ marginBottom: '2em', marginTop: '5rem', marginLeft: '15rem', marginRight: '15rem' }}>
