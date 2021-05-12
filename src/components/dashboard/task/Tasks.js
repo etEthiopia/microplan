@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
-import { Carousel, Row, Col, Card, Divider, Tag, Typography, Button } from 'antd';
+import { Carousel, Row, Modal, Col, Card, Divider, Tag, Typography, Button, Form, Select } from 'antd';
+import { DeleteOutlined } from '@ant-design/icons';
 import { PlusOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
+import { updateTaskStatus, deleteTask } from '../../../store/actions/taskActions';
 
 const { Title } = Typography;
 
 class Tasks extends Component {
 	state = {
 		personalTasks: [],
-		teamTasks: []
+		teamTasks: [],
+		modal: false,
+		toBeDeleted: ''
 	};
 	contentStyle = {
 		color: '#ffffff',
@@ -27,6 +31,30 @@ class Tasks extends Component {
 
 	onChange(a, b, c) {
 		console.log(a, b, c);
+	}
+
+	onChangeStatus(id, e) {
+		this.props.updateTaskStatus(id, e);
+	}
+
+	handleOk() {
+		this.props.deleteTask(this.state.toBeDeleted);
+		this.setState({
+			modal: false
+		});
+	}
+
+	handleCancel() {
+		this.setState({
+			modal: false
+		});
+	}
+
+	onDelete(id) {
+		this.setState({
+			modal: true,
+			toBeDeleted: id
+		});
 	}
 
 	addAfter(array, index, newItem) {
@@ -148,28 +176,36 @@ class Tasks extends Component {
 																	''
 																)}
 															</div>
+
+															<Select
+																style={{
+																	width: 'auto',
+
+																	paddingLeft: '0px'
+																}}
+																onChange={(e) => {
+																	this.onChangeStatus(personalTask.id, e);
+																}}
+																defaultValue={
+																	<option value={personalTask.status}>
+																		Change Status
+																	</option>
+																}
+															>
+																<Select value={0}>None</Select>
+																<Select value={1}>In Progress</Select>
+																<Select value={2}>Done</Select>
+															</Select>
+															<Button
+																type="danger"
+																icon={<DeleteOutlined />}
+																onClick={() => {
+																	this.onDelete(personalTask.id);
+																}}
+															/>
 														</Card>
 													</Col>
 												))}
-
-											{/* <Col span={8}>
-												<Card title="Card title" bordered={false}>
-													Card content
-													<Divider />
-													<div className="task-status-badge-div">
-														<Tag color="gold-inverse">In Progress</Tag>
-													</div>
-												</Card>
-											</Col>
-											<Col span={8}>
-												<Card title="Card title" bordered={false}>
-													Card content
-													<Divider />
-													<div className="task-status-badge-div">
-														<Tag color="green-inverse">Done</Tag>
-													</div>
-												</Card>
-											</Col> */}
 										</Row>
 									</div>
 								))}
@@ -232,6 +268,25 @@ class Tasks extends Component {
 																			''
 																		)}
 																	</div>
+																	<Select
+																		style={{
+																			width: 'auto',
+
+																			paddingLeft: '0px'
+																		}}
+																		onChange={(e) => {
+																			this.onChangeStatus(teamTask.id, e);
+																		}}
+																		defaultValue={
+																			<option value={teamTask.status}>
+																				Change Status
+																			</option>
+																		}
+																	>
+																		<Select value={0}>None</Select>
+																		<Select value={1}>In Progress</Select>
+																		<Select value={2}>Done</Select>
+																	</Select>
 																</Card>
 															</Col>
 														))}
@@ -242,6 +297,18 @@ class Tasks extends Component {
 							</Col>
 						</Row>
 					))}
+				<Modal
+					title="Confirm"
+					visible={this.state.modal}
+					onOk={() => {
+						this.handleOk();
+					}}
+					onCancel={() => {
+						this.handleCancel();
+					}}
+				>
+					<p>Are You Sure, You Want To Delete the Task?</p>
+				</Modal>
 				<Button
 					className="fab-container"
 					type="primary"
@@ -263,7 +330,14 @@ const mapStateToProps = (state) => {
 	};
 };
 
+const mapDispatchToProps = (dispatch) => {
+	return {
+		updateTaskStatus: (id, status) => dispatch(updateTaskStatus(id, status)),
+		deleteTask: (id) => dispatch(deleteTask(id))
+	};
+};
+
 export default compose(
 	firestoreConnect([ { collection: 'tasks' } ]), // or { collection: 'todos' }
-	connect(mapStateToProps)
+	connect(mapStateToProps, mapDispatchToProps)
 )(Tasks);
