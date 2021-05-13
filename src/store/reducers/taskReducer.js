@@ -1,10 +1,8 @@
 import { toast } from 'react-toastify';
 
-import tasksData from '../../dummydata/tasksData';
+//import tasksData from '../../dummydata/tasksData';
 
-const initState = {
-	tasks: [ tasksData ]
-};
+const initState = [];
 
 const taskReducer = (state = initState, action) => {
 	switch (action.type) {

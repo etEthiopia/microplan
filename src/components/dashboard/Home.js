@@ -16,6 +16,7 @@ import Teams from './team/Teams';
 import Stats from './Stats';
 import { connect } from 'react-redux';
 import { signOut } from '../../store/actions/authActions';
+import CreateTeam from './team/CreateTeam';
 
 const { Header, Sider, Content } = Layout;
 
@@ -120,6 +121,7 @@ class Home extends Component {
 								<Route path="/home/stats" component={Stats} />
 								<Route path="/home/teams" component={Teams} />
 								<Route path="/home/createtask" component={CreateTask} />
+								<Route path="/home/createteam" component={CreateTeam} />
 								<Route path="/home/task/:id" component={TaskDetail} />
 								<Route path="/" component={Tasks} />
 							</Switch>

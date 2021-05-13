@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { Row, Typography, Col, Card, Divider } from 'antd';
 import { Doughnut, Line, Pie } from 'react-chartjs-2';
+import Loading from '../layout/Loading';
+import { connect, useSelector } from 'react-redux';
+import { firestoreConnect, isLoaded } from 'react-redux-firebase';
+import { compose } from 'redux';
 
 const { Title } = Typography;
 
@@ -15,7 +19,7 @@ class Stats extends Component {
 		teamlineColor: 'rgb(204, 76, 143)',
 		teamlineBgColor: 'rgba(204, 76, 143, 0.5)'
 	};
-	personalTasksData = {
+	totalTasksData = {
 		labels: [ 'None', 'In Progress', 'Done' ],
 		datasets: [
 			{
@@ -39,7 +43,7 @@ class Stats extends Component {
 		]
 	};
 
-	teamPersonalTasksData = {
+	personalTasksData = {
 		labels: [ 'None', 'In Progress', 'Done' ],
 		datasets: [
 			{
@@ -60,32 +64,6 @@ class Stats extends Component {
 				fill: false,
 				backgroundColor: this.colors.lineColor,
 				borderColor: this.colors.lineBgColor
-			}
-		]
-	};
-
-	teamPersonalTimelineData = {
-		labels: [ '19/01/2021', '19/01/2021', '19/01/2021', '19/01/2021', '19/01/2021', '19/01/2021' ],
-		datasets: [
-			{
-				label: 'Personal TImeline',
-				data: [ 20, 12, 3, 5, 9, 3 ],
-				fill: false,
-				backgroundColor: this.colors.lineColor,
-				borderColor: this.colors.lineBgColor
-			}
-		]
-	};
-
-	teamTimelineData = {
-		labels: [ '19/01/2021', '19/01/2021', '19/01/2021', '19/01/2021', '19/01/2021', '19/01/2021' ],
-		datasets: [
-			{
-				label: 'Personal TImeline',
-				data: [ 20, 12, 12, 5, 19, 9 ],
-				fill: false,
-				backgroundColor: this.colors.teamlineColor,
-				borderColor: this.colors.teamlineBgColor
 			}
 		]
 	};
@@ -123,153 +101,201 @@ class Stats extends Component {
 	};
 
 	render() {
+		if (this.props.tasks && this.props.tasks.length > 0) {
+			var pnone = 0;
+			var pinprogress = 0;
+			var pdone = 0;
+			var tnone = 0;
+			var tinprogress = 0;
+			var tdone = 0;
+
+			this.props.tasks.map((task) => {
+				switch (task.status) {
+					case 0:
+						if (task.type == 0) {
+							pnone++;
+						} else {
+							tnone++;
+						}
+						break;
+					case 1:
+						if (task.type == 0) {
+							pinprogress++;
+						} else {
+							tinprogress++;
+						}
+						break;
+					case 2:
+						if (task.type == 0) {
+							pdone++;
+						} else {
+							tdone++;
+						}
+						break;
+					default:
+						break;
+				}
+			});
+			this.totalTasksData.datasets[0].data = [ pnone + tnone, pinprogress + tinprogress, pdone + tdone ];
+			this.personalTasksData.datasets[0].data = [ pnone, pinprogress, pdone ];
+			this.teamTasksData.datasets[0].data = [ tnone, tinprogress, tdone ];
+		}
 		return (
-			<div>
+			<TasksAreLoaded>
 				<div>
-					<Row>
-						<Title level={3}>Stats</Title>
-						<Col span={24}>
-							<div className="site-card-wrapper">
-								<Row gutter={16}>
-									<Col span={8}>
-										<Card title="Total Tasks" bordered={false}>
-											<Title level={1}>500</Title>
-										</Card>
-									</Col>
-									<Col span={8}>
-										<Card title="Personal Tasks" bordered={false}>
-											<Title level={1}>200</Title>
-										</Card>
-									</Col>
-									<Col span={8}>
-										<Card title="Team Tasks" bordered={false}>
-											<Title level={1}>300</Title>
-										</Card>
-									</Col>
-								</Row>
-							</div>
-						</Col>
-					</Row>
-					<Divider />
-					<Row>
-						<Title level={4}>Personal Stats</Title>
-						<Col span={24}>
-							<div className="site-card-wrapper">
-								<Row gutter={16}>
-									<Col span={8}>
-										<Card
-											title={
-												'Personal Stats : ' +
-												this.personalTasksData.datasets[0].data.reduce((a, v) => (a = a + v), 0)
-											}
-											bordered={false}
-										>
-											<Doughnut
-												data={this.personalTasksData}
-												height={250}
-												width={null}
-												options={this.doughnutOptions}
-											/>
-										</Card>
-									</Col>
-									<Col span={16}>
-										<Card title="Personal Timeline" bordered={false}>
-											<Line
-												data={this.personalTimelineData}
-												height={250}
-												width={null}
-												options={this.lineOptions}
-											/>
-										</Card>
-									</Col>
-								</Row>
-							</div>
-						</Col>
-					</Row>
+					<div>
+						<div>
+							<Row>
+								<Title level={3}>Stats</Title>
+								<Col span={24}>
+									<div className="site-card-wrapper">
+										<Row gutter={16}>
+											<Col span={8}>
+												<Card title="Total Tasks" bordered={false}>
+													<Title level={1}>
+														{this.props.tasks && this.props.tasks.length}
+													</Title>
+												</Card>
+											</Col>
+											<Col span={8}>
+												<Card title="Personal Tasks" bordered={false}>
+													<Title level={1}>
+														{this.props.tasks &&
+															this.props.tasks.reduce(
+																(a, b) => a + (b.type == 0 ? 1 || 0 : 0),
+																0
+															)}
+													</Title>
+												</Card>
+											</Col>
+											<Col span={8}>
+												<Card title="Team Tasks" bordered={false}>
+													<Title level={1}>
+														{' '}
+														{this.props.tasks &&
+															this.props.tasks.reduce(
+																(a, b) => a + (b.type == 1 ? 1 || 0 : 0),
+																0
+															)}
+													</Title>
+												</Card>
+											</Col>
+										</Row>
+									</div>
+								</Col>
+							</Row>
+							<Divider />
+							<Row>
+								<Title level={4}>Task Status</Title>
+								<Col span={24}>
+									<div className="site-card-wrapper">
+										<Row gutter={16}>
+											<Col span={8}>
+												<Card
+													title={
+														'Total Stats : ' +
+														this.totalTasksData.datasets[0].data.reduce(
+															(a, v) => (a = a + v),
+															0
+														)
+													}
+													bordered={false}
+												>
+													<Pie
+														data={this.totalTasksData}
+														height={250}
+														width={null}
+														options={this.doughnutOptions}
+													/>
+												</Card>
+											</Col>
+											<Col span={8}>
+												<Card
+													title={
+														'Personal Tasks : ' +
+														this.personalTasksData.datasets[0].data.reduce(
+															(a, v) => (a = a + v),
+															0
+														)
+													}
+													bordered={false}
+												>
+													<Doughnut
+														data={this.personalTasksData}
+														height={250}
+														width={null}
+														options={this.doughnutOptions}
+													/>
+												</Card>
+											</Col>
+											<Col span={8}>
+												<Card
+													title={
+														'Team Tasks : ' +
+														this.teamTasksData.datasets[0].data.reduce(
+															(a, v) => (a = a + v),
+															0
+														)
+													}
+													bordered={false}
+												>
+													<Doughnut
+														data={this.teamTasksData}
+														height={250}
+														width={null}
+														options={this.doughnutOptions}
+													/>
+												</Card>
+											</Col>
+										</Row>
+										<Row style={{ marginTop: '1rem' }}>
+											<Col span={24}>
+												<Card title="Personal Timeline (Static Data)" bordered={false}>
+													<Line
+														data={this.personalTimelineData}
+														height={250}
+														width={null}
+														options={this.lineOptions}
+													/>
+												</Card>
+											</Col>
+										</Row>
+									</div>
+								</Col>
+							</Row>
 
-					<Divider />
-					<Title level={4}>Team Stats</Title>
-					<Divider />
-					<Row>
-						<Title level={5}>Team 1</Title>
-
-						<Col span={24}>
-							<div className="site-card-wrapper">
-								<Row gutter={16}>
-									<Col span={8} style={{ marginBottom: '1em' }}>
-										<Card
-											title={
-												'Team 1 Tasks : ' +
-												this.teamTasksData.datasets[0].data.reduce((a, v) => (a = a + v), 0)
-											}
-											bordered={false}
-										>
-											<Pie
-												data={this.teamTasksData}
-												height={200}
-												width={null}
-												options={this.doughnutOptions}
-											/>
-										</Card>
-									</Col>
-									<Col span={8} style={{ marginBottom: '1em' }}>
-										<Card
-											title={
-												'Team 1 Personal Stats : ' +
-												this.teamPersonalTasksData.datasets[0].data.reduce(
-													(a, v) => (a = a + v),
-													0
-												)
-											}
-											bordered={false}
-										>
-											<Doughnut
-												data={this.teamPersonalTasksData}
-												height={200}
-												width={null}
-												options={this.doughnutOptions}
-											/>
-										</Card>
-									</Col>
-									<Col span={8} style={{ marginBottom: '1em' }}>
-										<Card
-											style={{ height: '100%' }}
-											title="Personal Share of Team 1 Tasks"
-											bordered={false}
-										>
-											<Title style={{ fontSize: '7rem' }} level={1}>
-												45%
-											</Title>
-										</Card>
-									</Col>
-									<Col span={12}>
-										<Card title="Team 1 Timeline" bordered={false}>
-											<Line
-												data={this.teamTimelineData}
-												height={200}
-												width={null}
-												options={this.lineOptions}
-											/>
-										</Card>
-									</Col>
-									<Col span={12}>
-										<Card title="Team 1 Personal Timeline" bordered={false}>
-											<Line
-												data={this.teamPersonalTimelineData}
-												height={200}
-												width={null}
-												options={this.lineOptions}
-											/>
-										</Card>
-									</Col>
-								</Row>
-							</div>
-						</Col>
-					</Row>
+							<Divider />
+						</div>
+						{/* </TasksAreLoaded> */}
+					</div>
 				</div>
-			</div>
+			</TasksAreLoaded>
 		);
 	}
 }
 
-export default Stats;
+function TasksAreLoaded({ children }) {
+	const tasks = useSelector((state) => state.firestore.ordered.tasks);
+	if (!isLoaded(tasks)) {
+		return <Loading />;
+	}
+	return children;
+}
+
+var uid = '';
+
+const mapStateToProps = (state) => {
+	if (state.firebase.auth.uid) {
+		uid = state.firebase.auth.uid;
+	}
+	return {
+		tasks: state.firestore.ordered.tasks
+	};
+};
+
+export default compose(
+	firestoreConnect(() => [
+		{ collection: 'tasks', where: [ 'author', '==', uid ], orderBy: [ 'createdAt', 'desc' ] }
+	]), // or { collection: 'todos' }
+	connect(mapStateToProps)
+)(Stats);

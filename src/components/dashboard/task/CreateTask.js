@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Card, Form, Select, Input, Row, Col, Button, Typography } from 'antd';
 import { createTask } from '../../../store/actions/taskActions';
-import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { connect, useSelector } from 'react-redux';
+import { firestoreConnect, isLoaded } from 'react-redux-firebase';
+import { compose } from 'redux';
+import Loading from '../../layout/Loading';
 
 const { Title } = Typography;
 
@@ -82,17 +84,23 @@ class CreateTask extends Component {
 									</Select>
 								</Form.Item>
 								{this.state.team && (
-									<Form.Item
-										name="team"
-										label="Team"
-										hasFeedback
-										rules={[ { required: true, message: 'Please select your Team!' } ]}
-									>
-										<Select style={{ width: 'auto', minWidth: '150px' }}>
-											<Select value="Team 1">Team 1</Select>
-											<Select value="Team 2">Team 2</Select>
-										</Select>
-									</Form.Item>
+									<TeamsAreLoaded>
+										<Form.Item
+											name="team"
+											label="Team"
+											hasFeedback
+											rules={[
+												{ required: this.state.team, message: 'Please select your Team!' }
+											]}
+										>
+											<Select style={{ width: 'auto', minWidth: '150px' }}>
+												{this.props.teams &&
+													this.props.teams.map((team) => (
+														<Select value={team.id}>{team.name}</Select>
+													))}
+											</Select>
+										</Form.Item>
+									</TeamsAreLoaded>
 								)}
 
 								<Form.Item {...this.tailLayout}>
@@ -109,10 +117,32 @@ class CreateTask extends Component {
 	}
 }
 
+function TeamsAreLoaded({ children }) {
+	const teams = useSelector((state) => state.firestore.ordered.teams);
+	if (!isLoaded(teams)) return <Loading />;
+	return children;
+}
+
+var email = '';
+
+const mapStateToProps = (state) => {
+	if (state.firebase.auth.email) {
+		email = state.firebase.auth.email;
+	}
+	return {
+		teams: state.firestore.ordered.teams
+	};
+};
+
 const mapDispatchToProps = (dispatch) => {
 	return {
 		createTask: (task) => dispatch(createTask(task))
 	};
 };
 
-export default connect(null, mapDispatchToProps)(CreateTask);
+export default compose(
+	firestoreConnect(() => [
+		{ collection: 'teams', where: [ 'members', 'array-contains', email ], orderBy: [ 'createdAt', 'desc' ] }
+	]), // or { collection: 'todos' }
+	connect(mapStateToProps, mapDispatchToProps)
+)(CreateTask);

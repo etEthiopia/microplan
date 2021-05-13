@@ -23,7 +23,7 @@ class App extends Component {
 			<ReactReduxFirebaseProvider {...rrfProps}>
 				<BrowserRouter>
 					<AuthIsLoaded>
-						<ToastContainer />
+						<ToastContainer autoClose={3000} hideProgressBar={true} />
 						<div className="App">
 							{!auth.uid ? (
 								<Route path="/" exact={true} component={Landing} />

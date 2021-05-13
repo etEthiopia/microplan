@@ -124,198 +124,233 @@ class Tasks extends Component {
 		// console.log('render');
 		// console.log(teamTasks);
 		return (
-			<TasksAreLoaded>
-				<div>
-					<Row>
-						{personalTasks && personalTasks.length > 0 ? <Title level={3}>Personal Tasks</Title> : ''}
+			<div>
+				<TasksAreLoaded>
+					<div>
+						<Row>
+							{personalTasks && personalTasks.length > 0 ? <Title level={3}>Personal Tasks</Title> : ''}
 
-						<Col span={24}>
-							<Carousel afterChange={this.onChange}>
-								{personalTasks &&
-									personalTasks.map((personalTaskBunch) => (
-										<div className="site-card-wrapper">
-											<Row gutter={16}>
-												{personalTaskBunch &&
-													personalTaskBunch.map((personalTask) => (
-														<Col span={8} key={personalTask.id}>
-															<Card
-																title={personalTask.title}
-																bordered={false}
-																style={{ height: '100%' }}
-															>
-																{personalTask.description}
-																<Divider />
-																<div className="task-status-badge-div">
-																	{personalTask.status == 0 ? (
-																		<Tag
-																			style={this.taskCardStatusStyle}
-																			color="red-inverse"
-																		>
-																			None
-																		</Tag>
-																	) : (
-																		''
-																	)}
-																	{personalTask.status == 1 ? (
-																		<Tag
-																			style={this.taskCardStatusStyle}
-																			color="gold-inverse"
-																		>
-																			In Progress
-																		</Tag>
-																	) : (
-																		''
-																	)}
-																	{personalTask.status == 2 ? (
-																		<Tag
-																			style={this.taskCardStatusStyle}
-																			color="green-inverse"
-																		>
-																			Done
-																		</Tag>
-																	) : (
-																		''
-																	)}
-																</div>
-
-																<Select
-																	style={{
-																		width: 'auto',
-
-																		paddingLeft: '0px'
-																	}}
-																	onChange={(e) => {
-																		this.onChangeStatus(personalTask.id, e);
-																	}}
-																	defaultValue="Change Status"
+							<Col span={24}>
+								<Carousel afterChange={this.onChange}>
+									{personalTasks &&
+										personalTasks.map((personalTaskBunch) => (
+											<div className="site-card-wrapper">
+												<Row gutter={16}>
+													{personalTaskBunch &&
+														personalTaskBunch.map((personalTask) => (
+															<Col xs={24} md={12} xl={8} key={personalTask.id}>
+																<Card
+																	title={personalTask.title}
+																	bordered={false}
+																	style={{ height: '100%' }}
 																>
-																	<Select value={0}>None</Select>
-																	<Select value={1}>In Progress</Select>
-																	<Select value={2}>Done</Select>
-																</Select>
-																<Button
-																	type="danger"
-																	icon={<DeleteOutlined />}
-																	onClick={() => {
-																		this.onDelete(personalTask.id);
-																	}}
-																/>
-															</Card>
-														</Col>
-													))}
-											</Row>
-										</div>
-									))}
-							</Carousel>
-						</Col>
-					</Row>
+																	{personalTask.description}
+																	<Divider />
+																	<div className="task-status-badge-div">
+																		{personalTask.status == 0 ? (
+																			<Tag
+																				style={this.taskCardStatusStyle}
+																				color="red-inverse"
+																			>
+																				None
+																			</Tag>
+																		) : (
+																			''
+																		)}
+																		{personalTask.status == 1 ? (
+																			<Tag
+																				style={this.taskCardStatusStyle}
+																				color="gold-inverse"
+																			>
+																				In Progress
+																			</Tag>
+																		) : (
+																			''
+																		)}
+																		{personalTask.status == 2 ? (
+																			<Tag
+																				style={this.taskCardStatusStyle}
+																				color="green-inverse"
+																			>
+																				Done
+																			</Tag>
+																		) : (
+																			''
+																		)}
+																	</div>
 
-					{teamTasks &&
-						Object.keys(teamTasks).map((keyName) => (
-							<Row>
-								<Divider />
-								<Title level={3}>{keyName}</Title>
+																	<Select
+																		style={{
+																			width: 'auto',
 
-								<Col span={24}>
-									<Carousel afterChange={this.onChange}>
-										{teamTasks[keyName] &&
-											teamTasks[keyName].map((teamBunch) => (
-												<div className="site-card-wrapper">
-													<Row gutter={16}>
-														{teamBunch &&
-															teamBunch.map((teamTask) => (
-																<Col span={8} key={teamTask.id}>
-																	<Card
-																		title={teamTask.title}
-																		bordered={false}
-																		style={{ height: '100%' }}
+																			paddingLeft: '0px'
+																		}}
+																		onChange={(e) => {
+																			this.onChangeStatus(personalTask.id, e);
+																		}}
+																		defaultValue="Change Status"
 																	>
-																		{teamTask.description}
-																		<Divider />
-																		<div className="task-status-badge-div">
-																			{teamTask.status == 0 ? (
-																				<Tag
-																					style={this.taskCardStatusStyle}
-																					color="red-inverse"
-																				>
-																					None
-																				</Tag>
-																			) : (
-																				''
-																			)}
-																			{teamTask.status == 1 ? (
-																				<Tag
-																					style={this.taskCardStatusStyle}
-																					color="gold-inverse"
-																				>
-																					In Progress
-																				</Tag>
-																			) : (
-																				''
-																			)}
-																			{teamTask.status == 2 ? (
-																				<Tag
-																					style={this.taskCardStatusStyle}
-																					color="green-inverse"
-																				>
-																					Done
-																				</Tag>
-																			) : (
-																				''
-																			)}
-																		</div>
-																		<Select
-																			style={{
-																				width: 'auto',
+																		<Select value={0}>None</Select>
+																		<Select value={1}>In Progress</Select>
+																		<Select value={2}>Done</Select>
+																	</Select>
+																	<Button
+																		type="danger"
+																		icon={<DeleteOutlined />}
+																		onClick={() => {
+																			this.onDelete(personalTask.id);
+																		}}
+																	/>
+																</Card>
+															</Col>
+														))}
+												</Row>
+											</div>
+										))}
+								</Carousel>
+							</Col>
+						</Row>
+						<TeamsAreLoaded>
+							{teamTasks &&
+								Object.keys(teamTasks).map((keyName) => (
+									<Row>
+										<Divider />
 
-																				paddingLeft: '0px'
-																			}}
-																			onChange={(e) => {
-																				this.onChangeStatus(teamTask.id, e);
-																			}}
-																			defaultValue={
-																				<option value={teamTask.status}>
-																					Change Status
-																				</option>
-																			}
-																		>
-																			<Select value={0}>None</Select>
-																			<Select value={1}>In Progress</Select>
-																			<Select value={2}>Done</Select>
-																		</Select>
-																	</Card>
-																</Col>
-															))}
-													</Row>
-												</div>
-											))}
-									</Carousel>
-								</Col>
-							</Row>
-						))}
-					<Modal
-						title="Confirm"
-						visible={this.state.modal}
-						onOk={() => {
-							this.handleOk();
-						}}
-						onCancel={() => {
-							this.handleCancel();
-						}}
-					>
-						<p>Are You Sure, You Want To Delete the Task?</p>
-					</Modal>
-					<Button
-						className="fab-container"
-						type="primary"
-						onClick={() => {
-							window.location.href = '/home/createtask/';
-						}}
-						shape="circle"
-						icon={<PlusOutlined />}
-					/>
-				</div>
-			</TasksAreLoaded>
+										{this.props.teams &&
+											this.props.teams.map(
+												(team) =>
+													team.id == keyName ? <Title level={3}>{team.name}</Title> : ''
+											)}
+
+										<Col span={24}>
+											<Carousel afterChange={this.onChange}>
+												{teamTasks[keyName] &&
+													teamTasks[keyName].map((teamBunch) => (
+														<div className="site-card-wrapper">
+															<Row gutter={16}>
+																{teamBunch &&
+																	teamBunch.map((teamTask) => (
+																		<Col xs={24} md={12} xl={8} key={teamTask.id}>
+																			<Card
+																				title={teamTask.title}
+																				bordered={false}
+																				style={{ height: '100%' }}
+																			>
+																				{teamTask.description}
+																				<Divider />
+																				<div className="task-status-badge-div">
+																					{teamTask.status == 0 ? (
+																						<Tag
+																							style={
+																								this.taskCardStatusStyle
+																							}
+																							color="red-inverse"
+																						>
+																							None
+																						</Tag>
+																					) : (
+																						''
+																					)}
+																					{teamTask.status == 1 ? (
+																						<Tag
+																							style={
+																								this.taskCardStatusStyle
+																							}
+																							color="gold-inverse"
+																						>
+																							In Progress
+																						</Tag>
+																					) : (
+																						''
+																					)}
+																					{teamTask.status == 2 ? (
+																						<Tag
+																							style={
+																								this.taskCardStatusStyle
+																							}
+																							color="green-inverse"
+																						>
+																							Done
+																						</Tag>
+																					) : (
+																						''
+																					)}
+																				</div>
+																				<Select
+																					style={{
+																						width: 'auto',
+
+																						paddingLeft: '0px'
+																					}}
+																					onChange={(e) => {
+																						this.onChangeStatus(
+																							teamTask.id,
+																							e
+																						);
+																					}}
+																					defaultValue={
+																						<option value={teamTask.status}>
+																							Change Status
+																						</option>
+																					}
+																				>
+																					<Select value={0}>None</Select>
+																					<Select value={1}>
+																						In Progress
+																					</Select>
+																					<Select value={2}>Done</Select>
+																				</Select>
+																				<Button
+																					type="danger"
+																					icon={<DeleteOutlined />}
+																					onClick={() => {
+																						this.onDelete(teamTask.id);
+																					}}
+																				/>
+																			</Card>
+																		</Col>
+																	))}
+															</Row>
+														</div>
+													))}
+											</Carousel>
+										</Col>
+									</Row>
+								))}
+						</TeamsAreLoaded>
+						<Modal
+							title="Confirm"
+							visible={this.state.modal}
+							onOk={() => {
+								this.handleOk();
+							}}
+							onCancel={() => {
+								this.handleCancel();
+							}}
+						>
+							<p>Are You Sure, You Want To Delete the Task?</p>
+						</Modal>
+						<Button
+							className="fab-container"
+							type="primary"
+							onClick={() => {
+								window.location.href = '/home/createtask/';
+							}}
+							shape="circle"
+							icon={<PlusOutlined />}
+						/>
+					</div>
+				</TasksAreLoaded>
+				<Button
+					className="fab-container"
+					type="primary"
+					onClick={() => {
+						window.location.href = '/home/createtask/';
+					}}
+					shape="circle"
+					icon={<PlusOutlined />}
+				/>
+			</div>
 		);
 	}
 }
@@ -326,15 +361,23 @@ function TasksAreLoaded({ children }) {
 	return children;
 }
 
+function TeamsAreLoaded({ children }) {
+	const teams = useSelector((state) => state.firestore.ordered.teams);
+	if (!isLoaded(teams)) return <Loading />;
+	return children;
+}
+
 var uid = '';
+var email = '';
 
 const mapStateToProps = (state) => {
 	if (state.firebase.auth.uid) {
 		uid = state.firebase.auth.uid;
+		email = state.firebase.auth.email;
 	}
 	return {
 		tasks: state.firestore.ordered.tasks,
-		auth: state.firebase.auth
+		teams: state.firestore.ordered.teams
 	};
 };
 
@@ -347,7 +390,8 @@ const mapDispatchToProps = (dispatch) => {
 
 export default compose(
 	firestoreConnect(() => [
-		{ collection: 'tasks', where: [ 'author', '==', uid ], orderBy: [ 'createdAt', 'desc' ] }
+		{ collection: 'tasks', where: [ 'author', '==', uid ], orderBy: [ 'createdAt', 'desc' ] },
+		{ collection: 'teams', where: [ 'members', 'array-contains', email ], orderBy: [ 'createdAt', 'desc' ] }
 	]), // or { collection: 'todos' }
 	connect(mapStateToProps, mapDispatchToProps)
 )(Tasks);
