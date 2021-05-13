@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 
-const taskData = Array(
+const taskData = [
 	{
 		id: uuidv4(),
 		title: 'Task 1 Title',
@@ -101,6 +101,6 @@ const taskData = Array(
 		lastUpdatedAt: Date.now(),
 		createdAt: Date.now()
 	}
-);
+];
 
 export default taskData;

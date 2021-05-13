@@ -8,12 +8,14 @@ import {
 	AreaChartOutlined,
 	DoubleLeftOutlined
 } from '@ant-design/icons';
-import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, Switch, Redirect } from 'react-router-dom';
 import Tasks from './task/Tasks';
 import TaskDetail from './task/TaskDetail';
 import CreateTask from './task/CreateTask';
 import Teams from './team/Teams';
 import Stats from './Stats';
+import { connect } from 'react-redux';
+import { signOut } from '../../store/actions/authActions';
 
 const { Header, Sider, Content } = Layout;
 
@@ -49,10 +51,15 @@ class Home extends Component {
 	};
 
 	menuHandler = (m) => {
-		window.location.href = m.key;
+		if (m.key != 'logout') {
+			window.location.href = m.key;
+		} else {
+			this.props.signOut();
+		}
 	};
 
 	render() {
+		if (!this.props.auth.uid) return <Redirect to="/login" />;
 		return (
 			<Router>
 				<Layout className="home-layout" style={{ marginLeft: this.state.marginleft }}>
@@ -82,7 +89,7 @@ class Home extends Component {
 							<Menu.Item onClick={this.menuHandler} key="/home/stats" icon={<AreaChartOutlined />}>
 								Stats
 							</Menu.Item>
-							<Menu.Item key="logout" icon={<DoubleLeftOutlined />}>
+							<Menu.Item key="logout" onClick={this.menuHandler} icon={<DoubleLeftOutlined />}>
 								Log Out
 							</Menu.Item>
 						</Menu>
@@ -119,4 +126,17 @@ class Home extends Component {
 	}
 }
 
-export default Home;
+const mapStateToProps = (state) => {
+	console.log(state);
+	return {
+		auth: state.firebase.auth
+	};
+};
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		signOut: () => dispatch(signOut())
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

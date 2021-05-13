@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Provider } from 'react-redux';
+
 import { BrowserRouter, Route } from 'react-router-dom';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
@@ -7,20 +7,29 @@ import Home from './components/dashboard/Home';
 import Landing from './components/landing/Landing';
 import Navbar from './components/layout/Navbar';
 import store from './store/store';
-import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
+import { ReactReduxFirebaseProvider, isLoaded } from 'react-redux-firebase';
 import { createFirestoreInstance } from 'redux-firestore';
 import firebase from './config/firebaseConfig';
 import { ToastContainer } from 'react-toastify';
+import { connect, useSelector } from 'react-redux';
+import Loading from './components/layout/Loading';
 
 class App extends Component {
+	state = {};
+
 	render() {
+		const { auth } = this.props;
 		return (
-			<Provider store={store}>
-				<ReactReduxFirebaseProvider {...rrfProps}>
-					<BrowserRouter>
+			<ReactReduxFirebaseProvider {...rrfProps}>
+				<BrowserRouter>
+					<AuthIsLoaded>
 						<ToastContainer />
 						<div className="App">
-							<Route path="/" exact={true} component={Landing} />
+							{!auth.uid ? (
+								<Route path="/" exact={true} component={Landing} />
+							) : (
+								<Route path="/" exact={true} component={Home} />
+							)}
 							<Route path="/login" component={Login} />
 							<Route path="/register" component={Register} />
 							<Route path="/home" component={Home} />
@@ -28,9 +37,9 @@ class App extends Component {
 							{/* <Navbar /> */}
 							{/* <Home /> */}
 						</div>
-					</BrowserRouter>
-				</ReactReduxFirebaseProvider>
-			</Provider>
+					</AuthIsLoaded>
+				</BrowserRouter>
+			</ReactReduxFirebaseProvider>
 		);
 	}
 }
@@ -42,4 +51,16 @@ const rrfProps = {
 	createFirestoreInstance
 };
 
-export default App;
+const mapStateToProps = (state) => {
+	return {
+		auth: state.firebase.auth
+	};
+};
+
+function AuthIsLoaded({ children }) {
+	const auth = useSelector((state) => state.firebase.auth);
+	if (!isLoaded(auth)) return <Loading />;
+	return children;
+}
+
+export default connect(mapStateToProps)(App);

@@ -30,7 +30,7 @@ class Tasks extends Component {
 	};
 
 	onChange(a, b, c) {
-		console.log(a, b, c);
+		//console.log(a, b, c);
 	}
 
 	onChangeStatus(id, e) {
@@ -110,7 +110,6 @@ class Tasks extends Component {
 		} catch (e) {
 			window.alert(e);
 		}
-		console.log('component mount: ' + personalTasks.length);
 		return {
 			personalTasks: personalTasks,
 			teamTasks: teamTasks
@@ -135,9 +134,8 @@ class Tasks extends Component {
 										<Row gutter={16}>
 											{personalTaskBunch &&
 												personalTaskBunch.map((personalTask) => (
-													<Col span={8}>
+													<Col span={8} key={personalTask.id}>
 														<Card
-															key={personalTask.id}
 															title={personalTask.title}
 															bordered={false}
 															style={{ height: '100%' }}
@@ -186,11 +184,7 @@ class Tasks extends Component {
 																onChange={(e) => {
 																	this.onChangeStatus(personalTask.id, e);
 																}}
-																defaultValue={
-																	<option value={personalTask.status}>
-																		Change Status
-																	</option>
-																}
+																defaultValue="Change Status"
 															>
 																<Select value={0}>None</Select>
 																<Select value={1}>In Progress</Select>
@@ -227,9 +221,8 @@ class Tasks extends Component {
 												<Row gutter={16}>
 													{teamBunch &&
 														teamBunch.map((teamTask) => (
-															<Col span={8}>
+															<Col span={8} key={teamTask.id}>
 																<Card
-																	key={teamTask.id}
 																	title={teamTask.title}
 																	bordered={false}
 																	style={{ height: '100%' }}
@@ -325,8 +318,7 @@ class Tasks extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		tasks: state.firestore.ordered.tasks || state.task.tasks,
-		taskcreation: state.task.taskcreation
+		tasks: state.firestore.ordered.tasks || []
 	};
 };
 
@@ -338,6 +330,8 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default compose(
-	firestoreConnect([ { collection: 'tasks', where: [ 'author', '==', 'daginegussu' ], orderBy:['createdAt','desc'] } ]), // or { collection: 'todos' }
+	firestoreConnect([
+		{ collection: 'tasks', where: [ 'author', '==', 'daginegussu' ], orderBy: [ 'createdAt', 'desc' ] }
+	]), // or { collection: 'todos' }
 	connect(mapStateToProps, mapDispatchToProps)
 )(Tasks);

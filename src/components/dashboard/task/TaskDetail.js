@@ -5,7 +5,7 @@ import { DownOutlined } from '@ant-design/icons';
 class TaskDetail extends Component {
 	state = {};
 	handleMenuClick(e) {
-		console.log('click', e);
+		//console.log('click', e);
 	}
 	render() {
 		return (

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Card, Form, Select, Input, Row, Col, Button, Typography } from 'antd';
 import { createTask } from '../../../store/actions/taskActions';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 const { Title } = Typography;
 

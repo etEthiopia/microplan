@@ -1,4 +1,5 @@
 import { toast } from 'react-toastify';
+
 import tasksData from '../../dummydata/tasksData';
 
 const initState = {
@@ -18,7 +19,7 @@ const taskReducer = (state = initState, action) => {
 			return state;
 		case 'CHANGE_TASK_STATUS_ERROR':
 			return state;
-		case 'CHANGE_TASK_STATUS':
+		case 'DELETE_TASK':
 			return state;
 		case 'DELETE_TASK_ERROR':
 			return state;
