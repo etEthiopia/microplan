@@ -46,7 +46,10 @@ class App extends Component {
 
 const rrfProps = {
 	firebase,
-	config: {},
+	config: {
+		userProfile: 'users',
+		useFirestoreForProfile: true
+	},
 	dispatch: store.dispatch,
 	createFirestoreInstance
 };

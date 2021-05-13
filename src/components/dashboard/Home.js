@@ -22,8 +22,7 @@ const { Header, Sider, Content } = Layout;
 class Home extends Component {
 	state = {
 		collapsed: false,
-		marginleft: 200,
-		name: 'Dagmawi Negussu'
+		marginleft: 200
 	};
 
 	toggle = () => {
@@ -76,7 +75,13 @@ class Home extends Component {
 					>
 						<div className="logo">
 							<Typography level={3}>
-								{this.state.collapsed ? this.state.name.charAt(0) : this.state.name}
+								{this.props.profile.name ? this.state.collapsed ? (
+									this.props.profile.name.charAt(0)
+								) : (
+									this.props.profile.name
+								) : (
+									''
+								)}
 							</Typography>
 						</div>
 						<Menu theme="dark" mode="inline" defaultSelectedKeys={[ '1' ]}>
@@ -129,7 +134,8 @@ class Home extends Component {
 const mapStateToProps = (state) => {
 	console.log(state);
 	return {
-		auth: state.firebase.auth
+		auth: state.firebase.auth,
+		profile: state.firebase.profile
 	};
 };
 
