@@ -338,6 +338,6 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default compose(
-	firestoreConnect([ { collection: 'tasks' } ]), // or { collection: 'todos' }
+	firestoreConnect([ { collection: 'tasks', where: [ 'author', '==', 'daginegussu' ], orderBy:['lastUpdatedAt','desc'] } ]), // or { collection: 'todos' }
 	connect(mapStateToProps, mapDispatchToProps)
 )(Tasks);

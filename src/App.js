@@ -10,6 +10,7 @@ import store from './store/store';
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
 import { createFirestoreInstance } from 'redux-firestore';
 import firebase from './config/firebaseConfig';
+import { ToastContainer } from 'react-toastify';
 
 class App extends Component {
 	render() {
@@ -17,6 +18,7 @@ class App extends Component {
 			<Provider store={store}>
 				<ReactReduxFirebaseProvider {...rrfProps}>
 					<BrowserRouter>
+						<ToastContainer />
 						<div className="App">
 							<Route path="/" exact={true} component={Landing} />
 							<Route path="/login" component={Login} />

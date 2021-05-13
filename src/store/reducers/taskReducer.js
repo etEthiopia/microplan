@@ -1,17 +1,18 @@
+import { toast } from 'react-toastify';
 import tasksData from '../../dummydata/tasksData';
 
 const initState = {
-	tasks: [ tasksData ],
-	taskcreation: ''
+	tasks: [ tasksData ]
 };
 
 const taskReducer = (state = initState, action) => {
 	switch (action.type) {
 		case 'CREATE_TASK':
-			state.taskcreation = 'successful::' + action.payload.title;
+			toast.success('Task Added');
+			window.location = '/home/tasks';
 			return state;
 		case 'CREATE_TASK_ERROR':
-			state.taskcreation = 'unsuccessful::' + action.payload.title;
+			toast.error('Task Not Added');
 			return state;
 		case 'CHANGE_TASK_STATUS':
 			return state;

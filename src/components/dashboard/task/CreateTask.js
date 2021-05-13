@@ -7,8 +7,7 @@ const { Title } = Typography;
 
 class CreateTask extends Component {
 	state = {
-		team: false,
-		title: ''
+		team: false
 	};
 	layout = {
 		labelCol: { span: 6 },
@@ -42,35 +41,9 @@ class CreateTask extends Component {
 		});
 	};
 
-	titleChange = (e) => {
-		this.setState({
-			title: e.target.value
-		});
-	};
-
 	render() {
 		return (
 			<div className="site-card-border-less-wrapper">
-				<Row>
-					{this.props.taskcreation != '' ? 'u' == this.props.taskcreation.charAt(0) &&
-					this.props.taskcreation.includes(this.state.title) ? (
-						<Title level={3} style={{ fontSize: 'red' }}>
-							Failed to Create Task
-						</Title>
-					) : (
-						''
-					) : (
-						''
-					)}
-					{this.props.taskcreation != '' ? 's' == this.props.taskcreation.charAt(0) &&
-					this.props.taskcreation.includes(this.state.title) ? (
-						(window.location.href = '/home/tasks')
-					) : (
-						''
-					) : (
-						''
-					)}
-				</Row>
 				<Row>
 					<Col span={16} offset={4}>
 						<Card title="Add a New Task" bordered={false} style={{ padding: '30px' }}>
@@ -84,7 +57,6 @@ class CreateTask extends Component {
 								<Form.Item
 									label="Title"
 									name="title"
-									onChange={this.titleChange}
 									rules={[ { required: true, type: 'string', message: 'Please input your title!' } ]}
 								>
 									<Input />
@@ -142,10 +114,4 @@ const mapDispatchToProps = (dispatch) => {
 	};
 };
 
-const mapStateToProps = (state) => {
-	return {
-		taskcreation: state.task.taskcreation
-	};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(CreateTask);
+export default connect(null, mapDispatchToProps)(CreateTask);
