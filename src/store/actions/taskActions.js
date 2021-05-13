@@ -7,7 +7,7 @@ export const createTask = (task) => {
 			.collection('tasks')
 			.add({
 				...task,
-				author: 'daginegussu',
+				author: getState().firebase.auth.uid,
 				status: 0,
 				lastUpdatedAt: firestore.FieldValue.serverTimestamp(),
 				createdAt: firestore.FieldValue.serverTimestamp()
